@@ -185,7 +185,55 @@
       </div>
     </div>
   </div>
-
+  <script>
+    const inputField = document.querySelector('.input-field input');
+    const sendButton = document.querySelector('.input-field button');
+    const chatBox = document.querySelector('.box');
+  
+    sendButton.addEventListener('click', sendMessage);
+    inputField.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+  
+    function sendMessage() {
+      const userInput = inputField.value.trim();
+      if (!userInput) return;
+  
+      appendMessage('user', userInput);
+      inputField.value = '';
+  
+      setTimeout(() => {
+        const reply = getBotReply(userInput.toLowerCase());
+        appendMessage('bot', reply);
+      }, 500);
+    }
+  
+    function appendMessage(sender, text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('item');
+      if (sender === 'user') messageDiv.classList.add('right');
+  
+      const msg = document.createElement('div');
+      msg.classList.add('msg');
+      msg.innerHTML = `<p>${text}</p>`;
+      messageDiv.appendChild(msg);
+  
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  
+    function getBotReply(input) {
+      if (input.includes('hello') || input.includes('hi')) {
+        return 'Hello! How can I support your mental wellness today? 😊';
+      } else if (input.includes('sad') || input.includes('depressed')) {
+        return "I'm here for you. You're not alone. Would you like a calming breathing exercise?";
+      } else if (input.includes('help')) {
+        return "Sure! I can listen to you, share coping strategies, or guide you to professional resources.";
+      } else {
+        return "That's interesting. Could you tell me a bit more?";
+      }
+    }
+  </script>
   <footer>
     &copy; 2025 AI Counselor. All rights reserved.
   </footer>
